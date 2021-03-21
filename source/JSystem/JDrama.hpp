@@ -35,14 +35,15 @@ public:
 };
 
 class TNameRefGen {
-  TNameRef* mRootName;
-
 public:
   virtual void load(JSUMemoryInputStream& stream);
   virtual TNameRef* getNameRef(const char*) const;
 
   TNameRef* getRootNameRef();
   static TNameRefGen* getInstance();
+
+private:
+  TNameRef* mRootName;
 };
 
 template <typename T> class TFlagT {
@@ -51,6 +52,7 @@ public:
   TFlagT(const TFlagT&);
   void set(T);
 
+private:
   T mFlag;
 };
 
@@ -87,13 +89,15 @@ public:
 };
 
 class TPlacement : public TViewObj {
-  JGeometry::TVec3<f32> mPosition;
-
 public:
   virtual ~TPlacement();
 
   virtual void load(JSUMemoryInputStream&);
 
+private:
+  JGeometry::TVec3<f32> mPosition;
+
+public:
   TFlagT<u16> mFlags;
 };
 
@@ -117,10 +121,6 @@ public:
 };
 
 class TActor : public TPlacement, public JStage::TActor {
-  JGeometry::TVec3<f32> mSize;     // 24
-  JGeometry::TVec3<f32> mRotation; // 30
-  u32 _02[0x8 / 4];                // 3C
-
 public:
   TActor(const char*);
   virtual ~TActor();
@@ -134,6 +134,11 @@ public:
   virtual void JSGSetScaling(const Vec&) override;
   virtual void JSGGetRotation(Vec*) const override;
   virtual void JSGSetRotation(const Vec&) override;
+
+private:
+  JGeometry::TVec3<f32> mSize;     // 24
+  JGeometry::TVec3<f32> mRotation; // 30
+  u32 _02[0x8 / 4];                // 3C
 };
 
 class TDirector : public TNameRef, public JStage::TSystem {
@@ -195,10 +200,6 @@ public:
 };
 
 class TCamera : public TPlacement, public JStage::TCamera {
-  u16 mFlag;           // 24
-  f32 mProjectionNear; // 28
-  f32 mProjectionFar;  // 2C
-
 public:
   virtual ~TCamera();
 
@@ -209,14 +210,14 @@ public:
   virtual void JSGSetProjectionNear(f32 projectionNear);
   virtual f32 JSGGetProjectionFar() const;
   virtual void JSGSetProjectionFar(f32 projectionFar);
+
+private:
+  u16 mFlag;           // 24
+  f32 mProjectionNear; // 28
+  f32 mProjectionFar;  // 2C
 };
 
 class TLookAtCamera : public TCamera {
-  JGeometry::TVec3<f32> mUpVector;  // 30
-  JGeometry::TVec3<f32> mTargetPos; // 3C
-  f32 mProjectionFovy;              // 48
-  f32 mProjectionAspect;            // 4C
-
 public:
   virtual ~TLookAtCamera();
 
@@ -234,12 +235,15 @@ public:
   virtual void JSGSetViewUpVector(const Vec* upVector);
   virtual Vec* JSGGetViewTargetPosition() const;
   virtual void JSGSetViewTargetPosition(const Vec* targetPos);
+
+private:
+  JGeometry::TVec3<f32> mUpVector;  // 30
+  JGeometry::TVec3<f32> mTargetPos; // 3C
+  f32 mProjectionFovy;              // 48
+  f32 mProjectionAspect;            // 4C
 };
 
 class TPolarCamera : public TCamera {
-  f32 mProjectionFovy;   // 30
-  f32 mProjectionAspect; // 34
-
 public:
   virtual ~TPolarCamera();
 
@@ -252,11 +256,13 @@ public:
   virtual void JSGSetProjectionFovy(f32 projectionFovy);
   virtual f32 JSGGetProjectionAspect() const;
   virtual void JSGSetProjectionAspect(f32 projectionAspect);
+
+private:
+  f32 mProjectionFovy;   // 30
+  f32 mProjectionAspect; // 34
 };
 
 class TOrthoProj : public TCamera {
-  JGeometry::TVec4<f32> mProjectionField; // 30
-
 public:
   virtual ~TOrthoProj();
 
@@ -267,6 +273,9 @@ public:
   virtual void JSGSetProjectionType(JStage::TECameraProjection);
   virtual f32* JSGGetProjectionField() const;
   virtual void JSGSetProjectionField(const f32* projectionField);
+
+private:
+  JGeometry::TVec4<f32> mProjectionField; // 30
 };
 
 class TDisplay {

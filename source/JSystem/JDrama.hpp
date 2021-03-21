@@ -8,7 +8,6 @@
 #include "source/GX.h"
 #include "source/types.h"
 
-
 class TCamConnector;
 
 namespace JDrama {
@@ -362,4 +361,4 @@ void CopyRenderModeVFilter(GXRenderModeObj*, const u8*);
 s32 GetVIWidthMax();
 s32 GetVIHeightMax();
 
-} // namespace JDramaF
+} // namespace JDrama

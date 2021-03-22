@@ -3,7 +3,7 @@
 #include "JKRFileFinder.hpp"
 #include "JKRFileLoader.hpp"
 #include "JKRHeap.hpp"
-#include "source/types.h"
+#include "types.h"
 
 class JKRArchive : public JKRFileLoader {
 public:
@@ -24,22 +24,22 @@ public:
   virtual ~JKRArchive();
 
   virtual s32 becomeCurrent(const char*);
-  virtual u8* getResource(const char*);
-  virtual u8* getResource(u32, const char*);
-  virtual u32* readResource(void*, u32, const char*);
-  virtual u32* readResource(void*, u32, u32, const char*);
+  virtual void* getResource(const char* path);
+  virtual void* getResource(u32, const char* path);
+  virtual void* readResource(void* dst, u32, const char* path);
+  virtual void* readResource(void* dst, u32, u32, const char* path);
   virtual void removeResourceAll();
-  virtual bool removeResource(void*);
-  virtual void detachResource(void*);
-  virtual s32 getResSize(const void*) const;
+  virtual bool removeResource(void* path);
+  virtual void detachResource(void* path);
+  virtual s32 getResSize(const void* resource) const;
   virtual s16 countFile(const char*);
   virtual JKRArcFinder* getFirstFile(const char*) const;
 
   u32 findDirectory(const char* path, u32) const;
   void* findFsResource(const char* path, u32) const;
-  void* findIdxResource(u32) const;
+  void* findIdxResource(u32 index) const;
   void* findNameResource(const char* name) const;
-  void* findPtrResource(const void*) const;
+  void* findPtrResource(const void* resource) const;
   void* findTypeResource(u32, const char*) const;
   bool getDirEntry(JKRArchive::SDirEntry*, u32) const;
 
@@ -59,7 +59,7 @@ private:
   u32 _50;
   u32 _54;
   u32 _58;
-  EMountDirection mountDirection;
+  EMountDirection mMountDirection;
 
-  s32** sCurrentDirID;
+  static s32** sCurrentDirID;
 };

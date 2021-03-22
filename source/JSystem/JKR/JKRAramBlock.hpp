@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../JSU/JSUList.hxx"
-#include "JKRAramHeap.hxx"
+#include "../JSU/JSUList.hpp"
+#include "JKRAramHeap.hpp"
 #include "source/types.h"
 
 class JKRAramBlock {

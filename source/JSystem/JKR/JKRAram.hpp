@@ -26,9 +26,7 @@ public:
   u32 _70;
   u32 _74;
   JKRAramHeap* mAramHeap;
-  u32 _7C;
-  u32 _80;
-  u32 _84;
+  void* _7C;
 
   static JSUPtrList sAramCommandList;
   static JKRAram* sAramObject;

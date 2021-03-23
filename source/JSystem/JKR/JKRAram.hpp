@@ -1,9 +1,10 @@
 #pragma once
 
-#include "../JSU/JSUList.hpp"
 #include "JKRDvdRipper.hpp"
 #include "JKRThread.hpp"
-#include "source/types.h"
+#include "JSystem/JSU/JSUList.hpp"
+#include "types.h"
+
 
 class JKRAram : public JKRThread {
 public:
@@ -13,11 +14,14 @@ public:
   virtual void run();
 
   static u32* create(size_t size, u32, s32 streamPriority, s32 decompPriority);
-  static s32 mainRamToAram(u8*, u32, u32, JKRExpandSwitch, u32, JKRHeap*, int);
-  static s32 aramToMainRam(u32, u8*, u32, JKRExpandSwitch, u32, JKRHeap*, int,
-                           u32*);
-  static s32 aramToMainRam(JKRAramBlock*, u8*, u32, u32, JKRExpandSwitch, u32,
-                           JKRHeap*, int, u32*);
+  static s32 mainRamToAram(u8* src, u32, size_t size, JKRExpandSwitch decompress, size_t,
+                           JKRHeap* heap, int);
+  static s32 aramToMainRam(u32 srcAddr, u8* dst, size_t size,
+                           JKRExpandSwitch decompress, size_t maxSize,
+                           JKRHeap* heap, int, u32* stackSize);
+  static s32 aramToMainRam(JKRAramBlock*, u8* dst, size_t size, u32 srcAddr,
+                           JKRExpandSwitch decompress, size_t maxSize,
+                           JKRHeap* heap, int, u32* stackSize);
 
   u32 _60;
   u32 _64;
@@ -34,4 +38,4 @@ public:
   static OSMessageQueue sMessageQueue;
 };
 
-void JKRDecompressFromAramToMainRam(u32, void*, u32, u32, u32);
+void JKRDecompressFromAramToMainRam(u32, void* dst, u32, size_t size, u32);

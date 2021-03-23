@@ -14,7 +14,7 @@ public:
   virtual void run();
 
   static u32* create(size_t size, u32, s32 streamPriority, s32 decompPriority);
-  static s32 mainRamToAram(u8* src, u32, size_t size, JKRExpandSwitch decompress, size_t,
+  static s32 mainRamToAram(u8* src, u32 dstAddr, size_t size, JKRExpandSwitch decompress, size_t,
                            JKRHeap* heap, int);
   static s32 aramToMainRam(u32 srcAddr, u8* dst, size_t size,
                            JKRExpandSwitch decompress, size_t maxSize,
@@ -38,4 +38,4 @@ public:
   static OSMessageQueue sMessageQueue;
 };
 
-void JKRDecompressFromAramToMainRam(u32, void* dst, u32, size_t size, u32);
+void JKRDecompressFromAramToMainRam(u32 srcAddr, void* dst, u32, size_t size, u32);
